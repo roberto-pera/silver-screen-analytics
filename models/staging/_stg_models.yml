@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: stg_movie_catalogue
+    description: "Cleans and standardizes movie catalogue data. Ensures all movies have a genre and normalized text fields."
+    columns:
+      - name: movie_id
+        description: "Unique identifier for each movie."
+        tests:
+          - not_null
+          - unique
+      - name: movie_title
+        description: "The movie title, trimmed and uppercased."
+      - name: genre
+        description: "Movie genre, with nulls replaced by 'Unknown'."
+      - name: studio
+        description: "Studio responsible for the movie production."
+  - name: stg_invoices
+    description: >
+      Cleans and standardizes invoice data from Silver Screen theaters. 
+      Aggregates to one record per movie, month, location, and studio.
+      Uses MIN(total_invoice_sum) due to anomalies in the raw dataset 
+      (some months contain duplicated invoice entries).
+    columns:
+      - name: movie_id
+        description: "Unique identifier of the movie in the invoice record."
+        tests:
+          - not_null
+      - name: month
+        description: "Month of the invoice."
+      - name: location_id
+        description: "Identifier for the theater location."
+      - name: studio
+        description: "Studio associated with the movie."
+      - name: total_price
+        description: >
+          The rental cost (aggregated using MIN due to synthetic data anomalies).
+  - name: stg_nj_001
+    description: >
+      Aggregates daily ticket transactions for the NJ_001 location into monthly totals.
+      Extracts the month from timestamp and sums ticket_amount and transaction_total.
+    columns:
+      - name: month
+        description: "Month (YYYY-MM) derived from transaction timestamp."
+      - name: movie_id
+        description: "Unique identifier for each movie."
+        tests:
+          - not_null
+      - name: location_id
+        description: "Constant identifier for the theater (nj_001)."
+      - name: total_tickets_sold
+        description: "Sum of all tickets sold for the given month and movie."
+      - name: total_revenue
+        description: "Sum of transaction totals for the given month and movie."

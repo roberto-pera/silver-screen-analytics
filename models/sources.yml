@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    database: silverscreen
+    schema: public
+    tables:
+      - name: invoices
+        description: "Represents the invoices issued for showing a specific movie at various theater locations during different months. Data was passed by “Silver Screen” accountants."
+      - name: movie_catalogue
+        description: "Detailed information about movies released in 2024 and rented out by “Silver Screen”"
+      - name: nj_001
+        description: "Information on all transactions from location 1"
+      - name: nj_002
+        description: "Information on all transactions from location 2"
+      - name: nj_003
+        description: "Information on all transactions from location 3"
