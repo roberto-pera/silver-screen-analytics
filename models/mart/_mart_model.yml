@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: mart_movie_monthly_performance
+    description: >
+      Final fact table that combines monthly revenue data from all Silver Screen locations
+      with enriched movie information and rental cost details.
+      Each record represents the performance of a specific movie at a specific location and month,
+      including ticket sales, revenue, rental costs, and gross margin.
+    columns:
+      - name: movie_id
+        data_type: varchar
+        description: >
+          Unique identifier for the movie, used to join revenue and movie details.
+        tests:
+          - not_null
+
+      - name: movie_title
+        data_type: varchar
+        description: >
+          Title of the movie, taken from the movie catalogue.
+
+      - name: genre
+        data_type: varchar
+        description: >
+          Genre classification of the movie, with 'Unknown' for missing entries.
+
+      - name: studio
+        data_type: varchar
+        description: >
+          Studio responsible for the movie.
+
+      - name: month
+        data_type: date
+        description: >
+          Reporting month for the aggregated metrics (derived using DATE_TRUNC in earlier models).
+
+      - name: location_id
+        data_type: varchar
+        description: >
+          Identifier of the Silver Screen theater location ('nj_001', 'nj_002', 'nj_003').
+
+      - name: total_tickets_sold
+        data_type: number
+        description: >
+          Total number of tickets sold for the movie at the location during the given month.
+
+      - name: total_revenue
+        data_type: number
+        description: >
+          Total ticket sales revenue for the movie at the location during the given month.
+
+      - name: total_price
+        data_type: number
+        description: >
+          Monthly rental cost for showing the movie at the location.
+
+      - name: gross_margin
+        data_type: number
+        description: >
+          Ratio of total_revenue to total_price, rounded to two decimals,
+          representing the gross margin of each movie showing.

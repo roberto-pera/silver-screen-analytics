@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: int_movie_sales_enriched
+    description: >
+      Enriches the invoice data with movie information from the movie catalogue.
+      Each record represents a movie along with its title, genre, month, location, studio, and total rental price.
+    columns:
+      - name: movie_id
+        data_type: varchar
+        description: >
+          Unique identifier for the movie, used to join invoices with movie catalogue data.
+        tests:
+          - not_null
+
+      - name: movie_title
+        data_type: varchar
+        description: >
+          Movie title as stored in the movie catalogue.
+
+      - name: genre
+        data_type: varchar
+        description: >
+          Movie genre information taken from the movie catalogue; may include 'Unknown' for missing values.
+
+      - name: month
+        data_type: date
+        description: >
+          Month value from the invoice data representing the period of the rental or screening.
+        tests:
+          - not_null
+
+      - name: location_id
+        data_type: varchar
+        description: >
+          Location identifier converted to lowercase for consistency across datasets.
+
+      - name: studio
+        data_type: varchar
+        description: >
+          Studio responsible for the movie.
+
+      - name: total_price
+        data_type: number
+        description: >
+          Total rental cost for the movie in the given month and location.
+
+  - name: int_nj_monthly_rev
+    description: >
+      Combines monthly aggregated ticket sales and revenue data from all three Silver Screen locations
+      (NJ_001, NJ_002, NJ_003) into a single unified table.
+      Each record represents the total monthly ticket sales and revenue for a given movie at a specific location.
+    columns:
+      - name: month
+        data_type: date
+        description: >
+          Month value derived in each source model using DATE_TRUNC('month').
+          Represents the reporting month for the aggregated metrics.
+        tests:
+          - not_null
+
+      - name: movie_id
+        data_type: varchar
+        description: >
+          Unique identifier for the movie, sourced from the individual staging tables.
+        tests:
+          - not_null
+
+      - name: location_id
+        data_type: varchar
+        description: >
+          Identifier for the theater location.
+          Possible values: 'nj_001', 'nj_002', 'nj_003'.
+        tests:
+          - not_null
+
+      - name: total_tickets_sold
+        data_type: number
+        description: >
+          Total number of tickets sold for each movie during the month at the given location.
+
+      - name: total_revenue
+        data_type: number
+        description: >
+          Total revenue generated from ticket sales for each movie during the month at the given location.

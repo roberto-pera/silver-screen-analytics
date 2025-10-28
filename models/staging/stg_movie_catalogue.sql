@@ -6,9 +6,9 @@ with
 
         select 
             movie_id, 
-            upper(trim(movie_title)) as movie_title,
+            movie_title,
             coalesce(genre, 'Unknown') as genre, 
-            upper(trim(studio)) as studio
+            studio
         from source
 
     )
