@@ -3,10 +3,15 @@ version: 2
 models:
   - name: mart_movie_monthly_performance
     description: >
-      Final fact table that combines monthly revenue data from all Silver Screen locations
-      with enriched movie information and rental cost details.
-      Each record represents the performance of a specific movie at a specific location and month,
-      including ticket sales, revenue, rental costs, and gross margin.
+      Final fact model that merges monthly revenue data from all Silver Screen locations
+      with enriched invoice and movie catalogue details.
+      The model joins aggregated revenue data (int_nj_monthly_rev)
+      with detailed sales and movie information (int_invoices_enriched)
+      on movie_id, location_id, and month.
+      Each record represents a movie’s performance at a specific location and month,
+      including ticket sales, revenue, rental costs, and calculated gross margin.
+      This design ensures that only movies with recorded sales are included,
+      providing a reliable basis for profitability analysis.
     columns:
       - name: movie_id
         data_type: varchar

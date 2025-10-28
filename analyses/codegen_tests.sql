@@ -1,5 +1,5 @@
 {{ codegen.generate_model_yaml(
-    model_names=['int_movie_sales_enriched', 'int_nj_monthly_rev']
+    model_names=['int_invoices_enriched', 'int_nj_monthly_rev']
 ) }}
 
 {{ codegen.generate_model_yaml(

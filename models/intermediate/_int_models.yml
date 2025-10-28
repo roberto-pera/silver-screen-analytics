@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: int_movie_sales_enriched
+  - name: int_invoices_enriched
     description: >
       Enriches the invoice data with movie information from the movie catalogue.
       Each record represents a movie along with its title, genre, month, location, studio, and total rental price.
