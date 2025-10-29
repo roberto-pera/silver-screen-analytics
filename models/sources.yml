@@ -2,16 +2,140 @@ version: 2
 
 sources:
   - name: raw
+    description: ""
     database: silverscreen
     schema: public
     tables:
       - name: invoices
         description: "Represents the invoices issued for showing a specific movie at various theater locations during different months. Data was passed by “Silver Screen” accountants."
+        columns:
+          - name: movie_id
+            data_type: varchar
+            description: "A unique identifier for each movie, typically consisting of the studio, year, and a unique movie code."
+          - name: invoice_id
+            data_type: varchar
+            description: "A unique identifier for each invoice issued for a specific movie at a specific location during a particular month."
+          - name: month
+            data_type: date
+            description: "The month in which the invoice was issued, in the format YYYY-MM-DD."
+          - name: location_id
+            data_type: varchar
+            description: "The identifier of the movie theater location, which is where the movie was shown."
+          - name: studio
+            data_type: varchar
+            description: "The production studio responsible for the movie, such as Pixar, Marvel Studios, etc."
+          - name: release_date
+            data_type: date
+            description: "The official release date of the movie, when it was first available to the public in theaters."
+          - name: weekly_price
+            data_type: number
+            description: "The weekly price charged for showing the movie at the specific location."
+          - name: total_invoice_sum
+            data_type: number
+            description: "The total sum of the invoice for the week, typically calculated as the weekly price multiplied by the number of weeks or total shows."
+
       - name: movie_catalogue
-        description: "Detailed information about movies released in 2024 and rented out by “Silver Screen”"
+        description: "Table contains detailed information about movies released in 2024 and rented out by “Silver Screen”"
+        columns:
+          - name: movie_id
+            data_type: varchar
+            description: "Unique identifier for each movie, often composed of a combination of studio, year, and a unique code."
+          - name: movie_title
+            data_type: varchar
+            description: "The title of the movie."
+          - name: release_date
+            data_type: date
+            description: "The official release date of the movie in YYYY-MM-DD format."
+          - name: genre
+            data_type: varchar
+            description: "The genre of the movie, describing the type of content."
+          - name: country
+            data_type: varchar
+            description: "The country where the movie was produced."
+          - name: studio
+            data_type: varchar
+            description: "The production studio responsible for making the movie."
+          - name: budget
+            data_type: varchar
+            description: "The production budget of the movie, typically in dollars."
+          - name: director
+            data_type: varchar
+            description: "The director of the movie."
+          - name: rating
+            data_type: varchar
+            description: "The movie’s age rating, describing the appropriate audience (e.g., PG, R)."
+          - name: minutes
+            data_type: number
+            description: "The runtime of the movie in minutes."
+
       - name: nj_001
-        description: "Information on all transactions from location 1"
+        description: "Information on all transactions from location No. 1"
+        columns:
+          - name: timestamp
+            data_type: date
+            description: "The date and time the transaction occurred, formatted as YYYY-MM-DD."
+          - name: transaction_id
+            data_type: varchar
+            description: "A unique alphanumeric identifier assigned to each transaction. This ensures each transaction is uniquely identified."
+          - name: movie_id
+            data_type: varchar
+            description: "A unique identifier for the movie being viewed in the transaction, usually tied to the movie's ID."
+          - name: ticket_amount
+            data_type: number
+            description: "The number of tickets purchased in this particular transaction."
+          - name: price
+            data_type: number
+            description: "The price per ticket for the transaction. This is the cost of a single ticket."
+          - name: transaction_total
+            data_type: number
+            description: "The total amount of money spent in the transaction, calculated as ticket_amount * price."
+          - name: is_discounted
+            data_type: boolean
+            description: "A boolean value indicating whether the transaction involved a discounted ticket. TRUE for discounted, FALSE for full price."
+          - name: is_3d
+            data_type: boolean
+            description: "A boolean value indicating whether the movie shown was in 3D. TRUE if the movie was in 3D, FALSE if not."
+
       - name: nj_002
-        description: "Information on all transactions from location 2"
+        description: "Information on all transactions from location No. 2"
+        columns:
+          - name: date
+            data_type: date
+            description: "The date of the ticket sales transaction, formatted as YYYY-MM-DD. This represents the day for which ticket sales are recorded."
+          - name: movie_id
+            data_type: varchar
+            description: "A unique identifier for the movie being sold, typically tied to a movie's ID."
+          - name: ticket_amount
+            data_type: number
+            description: "The number of tickets sold on the given day."
+          - name: ticket_price
+            data_type: number
+            description: "The price per ticket sold on that particular day."
+          - name: total_earned
+            data_type: number
+            description: "The total revenue earned from ticket sales on the specified date, calculated as ticket_amount * ticket_price."
+
       - name: nj_003
-        description: "Information on all transactions from location 3"
+        description: "Information on all transactions from location No. 3"
+        columns:
+          - name: timestamp
+            data_type: date
+            description: "The date and time when the transaction occurred, formatted as YYYY-MM-DD."
+          - name: transaction_id
+            data_type: varchar
+            description: "A unique alphanumeric identifier assigned to each transaction, ensuring that each transaction can be uniquely identified."
+          - name: product_type
+            data_type: varchar
+            description: "The type of product involved in the transaction, which could be a ticket, drink, snack, etc."
+          - name: details
+            data_type: varchar
+            description: "For tickets, this indicates the movie being viewed, represented by the movie_id. For other products, it remains empty or unspecified."
+          - name: amount
+            data_type: number
+            description: "The quantity of the product purchased in the transaction."
+          - name: price
+            data_type: number
+            description: "The price per unit of the product sold. This is the cost of one item, whether it's a ticket, drink, or snack."
+          - name: total_value
+            data_type: number
+            description: "The total amount spent in the transaction, calculated as amount * price."
