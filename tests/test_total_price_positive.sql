@@ -5,8 +5,8 @@ with invalid_rows as (
 
     select *
     from {{ ref('mart_movie_monthly_performance') }}
-    where total_price is null
-       or total_price <= 0
+    where rental_cost is null
+       or rental_cost <= 0
 
 )
 
