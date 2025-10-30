@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: stg_movie_catalogue
+    description: "Cleans and standardizes movie catalogue data. Ensures all movies have a genre."
+    columns:
+      - name: movie_id
+        description: "Unique identifier for each movie."
+        tests:
+          - not_null
+          - unique
+      - name: movie_title
+        description: "The movie title."
+      - name: genre
+        description: "Movie genre, with nulls replaced by 'Unknown'."
+      - name: studio
+        description: "Studio responsible for the movie production."
+  - name: stg_invoices
+    description: >
+      Cleans and standardizes invoice data from Silver Screen theaters. 
+      Aggregates to one record per movie, month, location, and studio.
+      Uses MIN(total_invoice_sum) due to anomalies in the raw dataset 
+      (some months contain duplicated invoice entries).
+    columns:
+      - name: movie_id
+        description: "Unique identifier of the movie in the invoice record."
+        tests:
+          - not_null
+      - name: month
+        description: "Month of the invoice."
+      - name: location_id
+        description: "Identifier for the theater location."
+      - name: studio
+        description: "Studio associated with the movie."
+      - name: total_price
+        description: >
+          The rental cost (aggregated using MIN due to synthetic data anomalies).
+  - name: stg_nj_001
+    description: >
+      Aggregates daily ticket transactions for the NJ_001 location into monthly totals.
+      Extracts the month from timestamp and sums ticket_amount and transaction_total.
+    columns:
+      - name: month
+        description: "Month (YYYY-MM) derived from transaction timestamp."
+      - name: movie_id
+        description: "Unique identifier for each movie."
+        tests:
+          - not_null
+      - name: location_id
+        description: "Constant identifier for the theater (nj_001)."
+      - name: total_tickets_sold
+        description: "Sum of all tickets sold for the given month and movie."
+      - name: total_revenue
+        description: "Sum of transaction totals for the given month and movie."
+  - name: stg_nj_002
+    description: >
+      Aggregates daily ticket sales data from the NJ_002 theater location into monthly totals.
+      Uses DATE_TRUNC to roll up daily data to monthly level for consistent reporting and joins.
+    columns:
+      - name: month
+        description: >
+          Month (DATE type) derived from the daily `date` column using DATE_TRUNC('month').
+      - name: movie_id
+        description: "Unique identifier for the movie."
+        tests:
+          - not_null
+      - name: location_id
+        description: >
+          Constant identifier for the theater location (nj_002). Used for later unification across all locations.
+      - name: total_tickets_sold
+        description: "Monthly sum of all tickets sold for each movie at this location."
+      - name: total_revenue
+        description: "Monthly total revenue earned from ticket sales at this location."
+  - name: stg_nj_003
+    description: >
+      Aggregates transactional data from the NJ_003 location to the monthly level.
+      Filters the dataset to include only rows where product_type equals 'ticket'.
+      Each record represents the total tickets sold and revenue per movie and month.
+    columns:
+      - name: month
+        description: >
+          Month derived from the timestamp column using DATE_TRUNC('month').
+      - name: movie_id
+        description: >
+          Value taken directly from the 'details' column in the source data.
+          Represents the movie identifier stored in text form.
+      - name: location_id
+        description: >
+          Constant identifier for this location ('nj_003').
+      - name: total_tickets_sold
+        description: >
+          Total number of tickets sold per movie in the given month.
+      - name: total_revenue
+        description: >
+          Total revenue generated from ticket sales per movie in the given month.
