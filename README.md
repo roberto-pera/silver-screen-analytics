@@ -29,6 +29,14 @@ The project follows a **three-layered architecture**, ensuring clear separation 
 | **Mart (`mart_`)** | Delivers final analytical dataset for BI tools | `mart_movie_monthly_performance` |
 
 ---
+## Data Lineage Overview
+
+The dbt lineage graph below illustrates the full transformation flow —
+from raw sources to staging, intermediate, and finally the mart layer:
+
+![dbt Lineage Graph](img_lineage_graph.png)
+
+---
 
 ## 3️⃣ Key Transformations
 
