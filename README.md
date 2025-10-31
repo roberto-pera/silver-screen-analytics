@@ -17,6 +17,19 @@ The main objective was to:
 All models, tests, and documentation are fully managed in **dbt Cloud**.
 
 ---
+## Data Sources
+
+The project uses five raw data sources provided as CSV files and loaded into Snowflake.  
+These represent different operational aspects of the Silver Screen cinema chain:  
+
+- **`movie_catalogue`** — metadata for all movies, including title, genre, studio, and release details.  
+- **`invoices`** — monthly rental invoices issued for each movie and theater location.  
+- **`nj_001`**, **`nj_002`**, and **`nj_003`** — ticket sales and transaction data from three separate theater locations, each with different formats and levels of aggregation.  
+
+All sources were defined in dbt via the `sources.yml` file to ensure transparent lineage and maintain consistent referencing across models.  
+This setup enables clear traceability from raw inputs in Snowflake to the final analytical outputs.
+
+---
 
 ## 2️⃣ Data Architecture
 
