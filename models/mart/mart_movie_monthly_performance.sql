@@ -8,7 +8,7 @@ select
     rev.total_tickets_sold as tickets_sold,
     rev.total_revenue as revenue,
     inv.total_price as rental_cost,
-    round(rev.total_revenue / inv.total_price, 2) as gross_margin
+    round((rev.total_revenue - inv.total_price) / nullif(rev.total_revenue, 0), 2) as gross_margin
 
 from {{ ref("int_nj_monthly_rev") }} rev
 join
