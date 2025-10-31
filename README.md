@@ -121,7 +121,7 @@ from raw sources to staging, intermediate, and finally the mart layer:
     Key calculated field:
     
     ```sql
-    round(rev.total_revenue / inv.total_price, 2) as gross_margin
+    round((rev.total_revenue - inv.total_price) / nullif(rev.total_revenue, 0), 2) as gross_margin
     
     ```
     
@@ -132,7 +132,7 @@ from raw sources to staging, intermediate, and finally the mart layer:
 
 ## 4️⃣ Testing & Quality Assurance
 
-To ensure data reliability, both **generic** and **custom tests** were implemented:
+To ensure data reliability, both **generic** and **custom test** were implemented:
 
 | Test Type | Description | Location |
 | --- | --- | --- |
@@ -151,17 +151,6 @@ To ensure data reliability, both **generic** and **custom tests** were implement
     
     ```
     
-- `test_gross_margin_positive.sql`
-    
-    Ensures only profitable or break-even movie runs are included:
-    
-    ```sql
-    select * from {{ ref('mart_movie_monthly_performance') }}
-    where gross_margin < 0
-    
-    ```
-    
-
 All tests successfully pass during `dbt build` in the development environment and are automated in the **production job**.
 
 ---
