@@ -150,9 +150,9 @@ To ensure data reliability, both **generic** and **custom test** were implemente
 | Test Type | Description | Location |
 | --- | --- | --- |
 | **Generic Tests** | `not_null`, `unique` tests for key columns like `movie_id` | YAML definitions |
-| **Custom Data Tests** | Validate numeric and business logic rules | `/tests` directory |
+| **Custom Data Test** | Validate numeric and business logic rules | `/tests` directory |
 
-**Custom SQL tests:**
+**Custom SQL test:**
 
 - `test_total_price_positive.sql`
     
