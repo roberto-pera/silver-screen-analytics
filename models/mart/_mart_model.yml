@@ -63,5 +63,7 @@ models:
       - name: gross_margin
         data_type: number
         description: >
-          Ratio of total_revenue to total_price, rounded to two decimals,
-          representing the gross margin of each movie showing.
+          Gross margin calculated as (total_revenue - total_price) / total_revenue.
+          Represents the share of profit relative to revenue, rounded to two decimals.
+          Negative values indicate unprofitable movie performances where rental costs
+          exceeded ticket revenue.
